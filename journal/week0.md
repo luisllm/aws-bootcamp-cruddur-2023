@@ -8,6 +8,7 @@
 [my-architectural-diagram](https://lucid.app/lucidchart/34141669-399a-4580-b327-71bb26fa106d/edit?viewport_loc=-666%2C-5%2C2560%2C1216%2C0_0&invitationId=inv_e3086808-3f27-4edd-8499-e386522939d0 "My architectural diagram")
 
 -  Set a billing alarm
+![image billing](./images/billing_alarm.png)
 
 -  Set an AWS Budget
 
