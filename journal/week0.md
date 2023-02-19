@@ -29,7 +29,7 @@
 
 -  Created MFA for Root
 
-![image mfa_root](./images/aws_mfa_root.png)
+![image mfa_root](./images/aws_root_mfa.png)
 
 -  Created Admin IAM user and enabled MFA
 
