@@ -32,6 +32,11 @@
 ![image creds](./images/aws_creds2.png)
 
 
+-  Configured AWS CLI also in gitpod
+
+![image gitpod_awscli](./images/gitpod_awscli.png)
+
+
 -  Used Cloudshell
 
 ![image cloudshell](./images/aws_cloudshell.png)
