@@ -7,6 +7,13 @@
 
 ![image week1-to-do2](./images/week1-todo2.png)
 
+![image week1-to-do3](./images/week1-todo3.png)
+
+![image week1-to-do4](./images/week1-todo4.png)
+
+![image week1-to-do5](./images/week1-todo5.png)
+
+
 
 -  Pushed and tagged the images to DockerHub
 
@@ -28,7 +35,24 @@ luislongom/aws-bootcamp-cruddur-2023-backend-flask         1.0         0b1cc8aa9
 ![image week1-backend-apis](./images/week1-week1-backend-apis.png)
 
 
+-  Implemented a healthcheck in the Docker compose file
 
+```
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+    healthcheck:
+      test: curl --fail http://localhost:3000 || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+```
 
 
 
@@ -41,9 +65,6 @@ luislongom/aws-bootcamp-cruddur-2023-backend-flask         1.0         0b1cc8aa9
 
 ![image billing](./images/week1-.png)
 
--  Implement a healthcheck in the V3 Docker compose file.
-
-![image billing](./images/week1-.png)
 
 
 -  Used multi-stage building for a Dockerfile build.
