@@ -3,14 +3,14 @@
 
 -  Did all the tasks in the week1 to-do list
 
-![image billing](./images/week1-to-do1.png)
+![image week1-to-do1](./images/week1-to-do1.png)
 
-![image billing](./images/week1-to-do2.png)
+![image week1-to-do2](./images/week1-to-do2.png)
 
 
 -  Pushed and tagged the images to DockerHub
 
-![image billing](./images/week1-images-in-dockerhub.png)
+![image week1-images-in-dockerhub](./images/week1-images-in-dockerhub.png)
 
 
 -  Installed Docker on my local machine and pulled the images
