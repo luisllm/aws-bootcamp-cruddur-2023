@@ -23,6 +23,10 @@ luislongom/aws-bootcamp-cruddur-2023-backend-flask         1.0         0b1cc8aa9
 ```
 
 
+-  Documented the backend APIs with readme.com
+
+![image week1-backend-apis](./images/week1-week1-backend-apis.png)
+
 
 
 
@@ -37,14 +41,12 @@ luislongom/aws-bootcamp-cruddur-2023-backend-flask         1.0         0b1cc8aa9
 
 ![image billing](./images/week1-.png)
 
-
-
--  Used multi-stage building for a Dockerfile build.
+-  Implement a healthcheck in the V3 Docker compose file.
 
 ![image billing](./images/week1-.png)
 
 
--  Implement a healthcheck in the V3 Docker compose file.
+-  Used multi-stage building for a Dockerfile build.
 
 ![image billing](./images/week1-.png)
 
