@@ -1,7 +1,7 @@
 # Week 1 — App Containerization
 ## My journal - week1
 
--  Did all the tasks in the week1 to-do list
+-  **Did all the tasks in the week1 to-do list**
 
 ![image week1-to-do1](./images/week1-todo1.png)
 
@@ -15,12 +15,12 @@
 
 
 
--  Pushed and tagged the images to DockerHub
+-  **Pushed and tagged the images to DockerHub**
 
 ![image week1-images-in-dockerhub](./images/week1-images-in-dockerhub.png)
 
 
--  Installed Docker on my local machine and pulled the images
+-  **Installed Docker on my local machine and pulled the images**
 
 ```
 vagrant@ubuntu-focal64:~$ docker image ls
@@ -30,12 +30,12 @@ luislongom/aws-bootcamp-cruddur-2023-backend-flask         1.0         0b1cc8aa9
 ```
 
 
--  Documented the backend APIs with readme.com
+-  **Documented the backend APIs with readme.com**
 
 ![image week1-backend-apis](./images/week1-week1-backend-apis.png)
 
 
--  Implemented a healthcheck in the Docker compose file
+-  **Implemented a healthcheck in the Docker compose file for the frontend**
 
 ```
   frontend-react-js:
@@ -56,23 +56,23 @@ luislongom/aws-bootcamp-cruddur-2023-backend-flask         1.0         0b1cc8aa9
 
 
 
--  Run the Dockerfile command as an external script
+-  **Run the Dockerfile command as an external script**
 
 ![image billing](./images/week1-.png)
 
 
--  Launch an EC2 instance that has docker installed, and pull a container to demonstrate you can run your own docker processes
+-  **Launch an EC2 instance that has docker installed, and pull a container to demonstrate you can run your own docker processes**
 
 ![image billing](./images/week1-.png)
 
 
 
--  Used multi-stage building for a Dockerfile build.
+-  **Used multi-stage building for a Dockerfile build**
 
 ![image billing](./images/week1-.png)
 
 
--  Research best practices of Dockerfiles and attempt to implement it in your Dockerfile.
+-  **Research best practices of Dockerfiles and attempt to implement it in your Dockerfile**
 
 ![image billing](./images/week1-.png)
 
