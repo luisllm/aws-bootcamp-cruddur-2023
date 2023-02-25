@@ -3,9 +3,9 @@
 
 -  Did all the tasks in the week1 to-do list
 
-![image week1-to-do1](./images/week1-to-do1.png)
+![image week1-to-do1](./images/week1-todo1.png)
 
-![image week1-to-do2](./images/week1-to-do2.png)
+![image week1-to-do2](./images/week1-todo2.png)
 
 
 -  Pushed and tagged the images to DockerHub
