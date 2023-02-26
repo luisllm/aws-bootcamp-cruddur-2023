@@ -51,7 +51,7 @@ Keep-Alive: timeout=5
 
 -  **Documented the backend APIs with readme.com**
 
-![image week1-backend-apis](./images/week1-week1-backend-apis.png)
+![image week1-backend-apis](./images/week1-backend-apis.png)
 
 
 -  **Implemented a healthcheck in the Docker compose file for the frontend**
