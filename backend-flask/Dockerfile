@@ -11,6 +11,5 @@ ENV FLASK_ENV=development
 
 EXPOSE ${PORT}
 #CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
-ADD start-flask.sh /root/start-flask.sh
-RUN chmod +x /root/start-flask.sh
-ENTRYPOINT ["/root/start-flask.sh"]
+RUN chmod +x start-flask.sh
+ENTRYPOINT ["./start-flask.sh"]
