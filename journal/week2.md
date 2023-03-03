@@ -11,4 +11,5 @@
    -  **AWS X-ray**
 ![image week2-xray](./images/week2-xray.png)
 
-
+   -  **Rollbar**
+![image week2-rollbar](./images/week2-rollbar.png)
