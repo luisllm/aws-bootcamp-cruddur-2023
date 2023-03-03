@@ -21,6 +21,7 @@ tasks:
     command: |
       cd frontend-react-js
       npm i
+      
 ports:
   #- name: psql-database
   #  port: 5432
