@@ -13,3 +13,5 @@
 
    -  **Rollbar**
 ![image week2-rollbar](./images/week2-rollbar.png)
+
+![image week2-rollbar-error](./images/week2-rollbar-error.png)
