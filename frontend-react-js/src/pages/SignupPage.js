@@ -9,27 +9,32 @@ import { Auth } from 'aws-amplify';
 export default function SignupPage() {
 
   // Username is email
-  //const [name, setName] = React.useState('');
+  const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
-  //const [username, setUsername] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errors, setErrors] = React.useState('');
-  //const [cognitoErrors, setCognitoErrors] = React.useState('');
   
   const onsubmit = async (event) => {
-    setErrors('')
     event.preventDefault();
+    setErrors('')
     try {
-      Auth.signIn(email, password)
-        .then(user => {
-          localStorage.setItem("access_token", user.signInUserSession.accessToken.jwtToken)
-          window.location.href = "/"
-        })
-        .catch(err => { console.log('Error!', err) });
+      const { user } = await Auth.signUp({
+        username: email,
+        password: password,
+        attributes: {
+          name: name,
+          email: email,
+          preferred_username: username,
+        },
+        autoSignIn: { // optional - enables auto sign in after user is confirmed
+            enabled: true,
+        }
+      });
+      console.log(user);
+      window.location.href = `/confirm?email=${email}`
     } catch (error) {
-      if (error.code == 'UserNotConfirmedException') {
-        window.location.href = "/confirm"
-      }
+      console.log(error);
       setErrors(error.message)
     }
     return false
