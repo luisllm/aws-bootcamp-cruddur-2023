@@ -7,10 +7,10 @@
 ![image week3-signup2](./images/week3-signup2.png)
 ![image week3-signup2](./images/week3-signup3.png)
 
-   -  **Custom Signin page**
-![image week3-signin1](./images/week3-signin1.png)
-![image week3-signin2](./images/week3-signin2.png)
-
    -  **Custom Confirmation page**
 ![image week3-confirmation1](./images/week3-confirmation1.png)
 ![image week3-confirmation2](./images/week3-confirmation2.png)
+
+   -  **Custom Signin page**
+![image week3-signin1](./images/week3-signin1.png)
+![image week3-signin2](./images/week3-signin2.png)
