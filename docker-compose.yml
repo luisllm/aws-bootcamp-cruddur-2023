@@ -15,6 +15,7 @@ services:
       ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
       AWS_COGNITO_USER_POOL_ID: "eu-west-1_rPAkBYXnU"
       AWS_COGNITO_USER_POOL_CLIENT_ID: "32574218pri3p87jgh486e8j5l"
+      CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
     build: ./backend-flask
     ports:
       - "4567:4567"
