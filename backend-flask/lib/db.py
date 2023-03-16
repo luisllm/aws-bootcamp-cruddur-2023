@@ -32,7 +32,14 @@ class Db:
     cyan = '\033[96m'
     no_color = '\033[0m'
     print(f'{cyan} SQL STATEMENT-[{title}]----------------{no_color}')
-    print(sql + "\n")
+    print(sql)
+
+  def print_params(self, params):
+    blue = '\033[94m'
+    no_color = '\033[0m'
+    print(f'{blue} SQL PARAMS:{no_color}')
+    for key, value in params.items():
+      print(key, ":", value)
 
   # when we want to commit data such as an insert
   # be sure to check for RETURNING in all uppercases
@@ -57,7 +64,7 @@ class Db:
   
   # when we want to return an array of json objects
   def query_array_json(self, sql, params={}):
-    self.print_sql('query_array_json', sql, params)
+    self.print_sql('query_array_json', sql)
 
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
@@ -71,6 +78,7 @@ class Db:
   # when we want to return a json object
   def query_object_json(self, sql, params={}):
     self.print_sql('query_object_json', sql)
+    self.print_params(params)
 
     wrapped_sql = self.query_wrap_object(sql)
     with self.pool.connection() as conn:
@@ -79,7 +87,10 @@ class Db:
         # this will return a tuple
         # the first field being the data
         json = cur.fetchone()
-        return json[0]
+        if json == None:
+          {}
+        else:
+          return json[0]
   
   def query_wrap_object(self, template):
     sql = f"""
