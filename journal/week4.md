@@ -132,6 +132,14 @@ cruddur=> select * from users;
 (3 rows)
 ```
    -  **Created new activities with a database insert**
-![image week4-gitpod-to-rds](./images/week4-gitpod-to-rds.png)
+![image week4-db-insert](./images/week4-db-insert.png)
 &nbsp;
 &nbsp;
+```
+cruddur=> select * from activities;
+                 uuid                 |              user_uuid               |             message             | replies_count | reposts_count | likes_count | reply_to_activity_uuid |         expires_at         |         created_at         
+--------------------------------------+--------------------------------------+---------------------------------+---------------+---------------+-------------+------------------------+----------------------------+----------------------------
+ 65001993-7a6e-4d7b-a3a7-9256b1ca6e6d | d4db9fe7-3684-4b98-a4af-xxxxxxxxxxxx | This was imported as seed data! |             0 |             0 |           0 |                        | 2023-03-25 14:31:19.445827 | 2023-03-15 14:31:19.445827
+ 6cd3c50e-f0b9-46d0-9eb9-e639f952261e | 1dad0b67-8970-402a-8ea2-yyyyyyyyyyyy | This is my test                 |             0 |             0 |           0 |                        | 2023-03-23 22:03:29.616305 | 2023-03-16 22:03:29.62675
+(2 rows)
+```
