@@ -174,7 +174,7 @@ def data_home():
   #app.logger.debug(
   #  request.headers.get('Authorization')
   #)
-
+  user_handle = request.json["user_handle"]
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
