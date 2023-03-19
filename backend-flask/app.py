@@ -174,7 +174,6 @@ def data_home():
   #app.logger.debug(
   #  request.headers.get('Authorization')
   #)
-  user_handle = request.json["user_handle"]
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
@@ -217,7 +216,7 @@ def data_search():
 @app.route("/api/activities", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities():
-  user_handle  = 'llm'
+  user_handle = request.json["user_handle"]
   message = request.json['message']
   ttl = request.json['ttl']
   model = CreateActivity.run(message, user_handle, ttl)
