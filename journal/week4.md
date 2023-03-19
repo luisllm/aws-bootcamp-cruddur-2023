@@ -1,12 +1,12 @@
 # Week 4 — Postgres and RDS
 ## My journal - week4
 
--  **Did all the tasks in the week4 to-do list**
-   -  **Created AWS RDS instance**
+**Did all the tasks in the week4 to-do list**
+-  **Created AWS RDS instance**
 ![image week4-rds](./images/week4-rds.png)
 &nbsp;
 &nbsp;
-   -  **Created all the bash scripts for all common database actions**
+-  **Created all the bash scripts for all common database actions**
 ```
 gitpod /workspace/aws-bootcamp-cruddur-2023/backend-flask (main) $ ./bin/db-setup 
 ./bin/db-setup: line 2: -e: command not found
@@ -44,7 +44,7 @@ cruddur=# \dt
 
 cruddur=#
 ```
-   -  **Connected Gitpod to RDS**
+-  **Connected Gitpod to RDS**
 ```
 gitpod /workspace/aws-bootcamp-cruddur-2023/backend-flask (main) $ ./bin/db-connect prod
 using production
@@ -68,7 +68,7 @@ cruddur=> \l
            |             |          |             |             | cruddurroot=CTc/cruddurroot
 (5 rows)
 ```
-   -  **Installed Postgres driver in backend**
+-  **Installed Postgres driver in backend**
 ```
 from lib.db import pool, query_wrap_array
 
@@ -110,7 +110,7 @@ class HomeActivities:
       print(json[0])
       return json[0]
 ```
-   -  **Created Cognito Trigger to insert user into database**
+-  **Created Cognito Trigger to insert user into database**
 ![image week4-cognito-lambda-trigger](./images/week4-cognito-lambda-trigger.png)
 &nbsp;
 &nbsp;
@@ -131,7 +131,7 @@ cruddur=> select * from users;
  1dad0b67-8970-402a-8ea2-529db63a5322 | Luis xxxxx   | xxx         | xxxxxxxxxxxx@gmail.com | 27b4e45c-a5df-4f33-a3c1-76da8dce3a9b | 2023-03-15 14:51:39.65371
 (3 rows)
 ```
-   -  **Created new activities with a database insert**
+-  **Created new activities with a database insert**
 ![image week4-db-insert](./images/week4-db-insert.png)
 &nbsp;
 &nbsp;
