@@ -30,10 +30,13 @@ class Ddb:
     }
     print('query-params:',query_params)
     print(query_params)
+    print("HELLO")
+    
     # query the table
     response = client.query(**query_params)
     items = response['Items']
     
+    print("BYE")
     print("items:: ", items)
     
     results = []
