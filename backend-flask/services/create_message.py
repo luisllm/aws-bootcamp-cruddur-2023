@@ -6,6 +6,19 @@ from lib.ddb import Ddb
 class CreateMessage:
   # mode indicates if we want to create a new message_group or using an existing one
   def run(mode, message, cognito_user_id, message_group_uuid=None, user_receiver_handle=None):
+    
+    print("ENTRA EN CreateMessage =-=-=-=-==")
+    print("mode")
+    print(mode)
+    print("message")
+    print(message)
+    print("cognito_user_id")
+    print(cognito_user_id)
+    print("message_group_uuid")
+    print(message_group_uuid)
+    print("user_receiver_handle")
+    print(user_receiver_handle)
+    
     model = {
       'errors': None,
       'data': None
@@ -68,6 +81,7 @@ class CreateMessage:
           my_user_display_name=my_user['display_name'],
           my_user_handle=my_user['handle']
         )
+        print("Message updated")
       elif (mode == "create"):
         data = Ddb.create_message_group(
           client=ddb,
@@ -79,5 +93,6 @@ class CreateMessage:
           other_user_display_name=other_user['display_name'],
           other_user_handle=other_user['handle']
         )
+        print ("Message created")
       model['data'] = data
     return model
