@@ -1,0 +1,32 @@
+#! /usr/bin/bash
+
+ABS_PATH=$(readlink -f "$0")
+FRONTEND_PATH=$(dirname $ABS_PATH)
+BIN_PATH=$(dirname $FRONTEND_PATH)
+PROJECT_PATH=$(dirname $BIN_PATH)
+echo $PROJECT_PATH
+FRONTEND_REACT_JS_PATH="$PROJECT_PATH/frontend-react-js"
+
+echo "ECR LOGIN"
+source "$PROJECT_PATH/ecr/login"
+
+export ECR_FRONTEND_REACT_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/frontend-react-js"
+echo $ECR_FRONTEND_REACT_URL
+
+echo "DOCKER BUILD"
+docker build \
+--build-arg REACT_APP_BACKEND_URL="https://api.cruddur.es" \
+--build-arg REACT_APP_AWS_PROJECT_REGION="$AWS_DEFAULT_REGION" \
+--build-arg REACT_APP_AWS_COGNITO_REGION="$AWS_DEFAULT_REGION" \
+--build-arg REACT_APP_AWS_USER_POOLS_ID="eu-west-1_rPAkBYXnU" \
+--build-arg REACT_APP_CLIENT_ID="32574218pri3p87jgh486e8j5l" \
+-t frontend-react-js \
+-f Dockerfile.prod \
+.
+
+echo "DOCKER TAG"
+docker tag frontend-react-js:latest $ECR_FRONTEND_REACT_URL:latest
+
+echo "DOCKER PUSH"
+docker push $ECR_FRONTEND_REACT_URL:latest
+

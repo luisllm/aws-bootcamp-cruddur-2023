@@ -1,0 +1,19 @@
+#! /usr/bin/bash
+
+bin_path="$(realpath .)/bin"
+source "$bin_path/ecr/login"
+
+export ECR_BACKEND_FLASK_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/backend-flask"
+echo $ECR_BACKEND_FLASK_URL
+
+echo "DOCKER BUILD"
+docker build \
+-t backend-flask-prod \
+-f Dockerfile.prod \
+.
+
+echo "DOCKER TAG"
+docker tag backend-flask-prod:latest $ECR_BACKEND_FLASK_URL:latest
+
+echo "DOCKER PUSH"
+docker push $ECR_BACKEND_FLASK_URL:latest
