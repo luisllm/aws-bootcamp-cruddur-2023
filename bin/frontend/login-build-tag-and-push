@@ -1,11 +1,15 @@
 #! /usr/bin/bash
 
 ABS_PATH=$(readlink -f "$0")
-FRONTEND_PATH=$(dirname $ABS_PATH)
-DOCKER_PATH=$(dirname $FRONTEND_PATH)
-BIN_PATH=$(dirname $DOCKER_PATH)
+BIN_PATH=$(dirname $ABS_PATH)
 PROJECT_PATH=$(dirname $BIN_PATH)
 FRONTEND_REACT_JS_PATH="$PROJECT_PATH/frontend-react-js"
+
+echo "ECR LOGIN"
+source "$BIN_PATH/ecr/login"
+
+export ECR_FRONTEND_REACT_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/frontend-react-js"
+echo $ECR_FRONTEND_REACT_URL
 
 echo "DOCKER BUILD"
 docker build \
@@ -17,3 +21,10 @@ docker build \
 -t frontend-react-js \
 -f "$FRONTEND_REACT_JS_PATH/Dockerfile.prod" \
 "$FRONTEND_REACT_JS_PATH/."
+
+echo "DOCKER TAG"
+docker tag frontend-react-js:latest $ECR_FRONTEND_REACT_URL:latest
+
+echo "DOCKER PUSH"
+docker push $ECR_FRONTEND_REACT_URL:latest
+
