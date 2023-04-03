@@ -1,14 +1,14 @@
 #! /usr/bin/bash
 
 ABS_PATH=$(readlink -f "$0")
-FRONTEND_PATH=$(dirname $ABS_PATH)
-BIN_PATH=$(dirname $FRONTEND_PATH)
+BUILD_PATH=$(dirname $ABS_PATH)
+DOCKER_PATH=$(dirname $BUILD_PATH)
+BIN_PATH=$(dirname $DOCKER_PATH)
 PROJECT_PATH=$(dirname $BIN_PATH)
-echo $PROJECT_PATH
 FRONTEND_REACT_JS_PATH="$PROJECT_PATH/frontend-react-js"
 
 echo "ECR LOGIN"
-source "$PROJECT_PATH/ecr/login"
+source "$BIN_PATH/ecr/login"
 
 export ECR_FRONTEND_REACT_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/frontend-react-js"
 echo $ECR_FRONTEND_REACT_URL
@@ -21,8 +21,8 @@ docker build \
 --build-arg REACT_APP_AWS_USER_POOLS_ID="eu-west-1_rPAkBYXnU" \
 --build-arg REACT_APP_CLIENT_ID="32574218pri3p87jgh486e8j5l" \
 -t frontend-react-js \
--f Dockerfile.prod \
-.
+-f "$FRONTEND_REACT_JS_PATH/Dockerfile.prod" \
+"$FRONTEND_REACT_JS_PATH/."
 
 echo "DOCKER TAG"
 docker tag frontend-react-js:latest $ECR_FRONTEND_REACT_URL:latest
