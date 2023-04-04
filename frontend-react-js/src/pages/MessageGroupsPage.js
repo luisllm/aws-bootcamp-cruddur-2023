@@ -3,7 +3,7 @@ import React from "react";
 
 import DesktopNavigation  from '../components/DesktopNavigation';
 import MessageGroupFeed from '../components/MessageGroupFeed';
-import {getAccessToken} from '../lib/CheckAuth';
+import {checkAuth, getAccessToken} from '../lib/CheckAuth';
 
 export default function MessageGroupsPage() {
   const [messageGroups, setMessageGroups] = React.useState([]);
@@ -15,7 +15,9 @@ export default function MessageGroupsPage() {
     try {
       await getAccessToken()
       const access_token = localStorage.getItem("access_token") 
-
+      console.log('22', access_token)
+      console.log('access_token',access_token)
+      
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
       const res = await fetch(backend_url, {
         headers: {
