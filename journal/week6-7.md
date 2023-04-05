@@ -27,6 +27,7 @@
 ![image week6-7-cruddur-es2](./images/week6-7-cruddur-es2.png)
 
 -  **Secured Flask by not running in debug mode for prod & Created Dockerfile specfically for production use case**
+
 For the backend:
 ```
 FROM 632758144135.dkr.ecr.eu-west-1.amazonaws.com/cruddur-python:3.10-slim-buster
@@ -87,15 +88,17 @@ EXPOSE 3000
 ![image week6-7-cognito-token](./images/week6-7-cognito-token.png)
 
 -  **Refactored bin directory to be top level**
+
 ![image week6-7-bin-folder](./images/week6-7-bin-folder.png)
   
 -  **Configured task definitions to contain x-ray**
-![image week6-7-xray(./images/week6-7-xray.png)
+![image week6-7-xray](./images/week6-7-xray.png)
 
 -  **Turned on Container Insights**
 ![image week6-7-container-insights](./images/week6-7-container-insights.png)
 
 -  **Changed Docker Compose to explicitly use a user-defined network**
+
 In docker-compose.yml
 ```
 services:
