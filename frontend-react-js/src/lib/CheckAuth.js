@@ -28,7 +28,7 @@ export async function checkAuth(setUser){
       return Auth.currentSession()
     }).then((cognito_user_session) => {
         console.log('cognito_user_session',cognito_user_session)
-        localStorage.setItem("access_token", cognito_user_session.getAccessToken.jwtToken)
+        localStorage.setItem("access_token", cognito_user_session.accessToken.jwtToken)
     })
     .catch((err) => console.log(err));
   }
