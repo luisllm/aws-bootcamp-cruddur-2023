@@ -1,0 +1,4 @@
+#! /usr/bin/bash
+set -e # stop if it fails at any point
+
+aws s3 ls "s3://assets.$DOMAIN_NAME/"
