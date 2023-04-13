@@ -3,6 +3,8 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 
@@ -30,14 +32,30 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
 
 
 
-    //const bucket = this.createBucket(bucketName);
+    //we manually created the s3 bucket in the console, and we are importing it (so that there is no risk of deleting the files inside thes3 bucket)
     const bucket = this.importBucket(bucketName);
+
+    // create the lambda that will be trigger when putting objects in the s3 bucket
     const lambda = this.createLambda(functionPath, bucketName, folderInput, folderOutput)
 
+    // create SNS topic and subscription
+    const snsTopic = this.createSnsTopic(topicName)
+    this.createSnsSubscription(snsTopic,webhookUrl)
+
+    // create the s3 event notification to call Lambda
     this.createS3NotifyToLambda(folderInput,lambda,bucket)
 
+    // create the s3 event notification to call SNS
+    this.createS3NotifyToSns(folderOutput,snsTopic,bucket)
+
+    // create and attach policy needed for Lambda to write to S3
     const s3ReadWritePolicy = this.createPolicyBucketAccess(bucket.bucketArn)
     lambda.addToRolePolicy(s3ReadWritePolicy);
+
+    // create and attach policy needed for Lambda to publish to SNS
+    //const snsPublishPolicy = this.createPolicySnSPublish(snsTopic.topicArn)
+    //lambda.addToRolePolicy(snsPublishPolicy);
+
   }
 
   createBucket(bucketName: string): s3.IBucket {
@@ -90,4 +108,42 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     });
     return s3ReadWritePolicy;
   }
+
+  createSnsTopic(topicName: string): sns.ITopic{
+    const logicalName = "ThumbingTopic";
+    const snsTopic = new sns.Topic(this, logicalName, {
+      topicName: topicName
+    });
+    return snsTopic;
+  }
+
+  createSnsSubscription(snsTopic: sns.ITopic, webhookUrl: string): sns.Subscription {
+    const snsSubscription = snsTopic.addSubscription(
+      new subscriptions.UrlSubscription(webhookUrl)
+    )
+    return snsSubscription;
+  }
+
+  createS3NotifyToSns(prefix: string, snsTopic: sns.ITopic, bucket: s3.IBucket): void {
+    const destination = new s3n.SnsDestination(snsTopic)
+    bucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED_PUT, 
+      destination,
+      {prefix: prefix}
+    );
+  }
+
+  /*
+  createPolicySnSPublish(topicArn: string){
+    const snsPublishPolicy = new iam.PolicyStatement({
+      actions: [
+        'sns:Publish',
+      ],
+      resources: [
+        topicArn
+      ]
+    });
+    return snsPublishPolicy;
+  }
+  */
 }
