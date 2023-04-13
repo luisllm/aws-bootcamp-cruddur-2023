@@ -44,7 +44,8 @@ tasks:
       cd thumbing-serverless-cdk
       cp .env.example .env
       npm i
-
+      cd ../aws/lambdas/process-images
+      npm i
 ports:
   #- name: psql-database
   #  port: 5432
