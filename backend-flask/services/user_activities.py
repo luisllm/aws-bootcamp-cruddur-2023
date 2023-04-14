@@ -11,7 +11,8 @@ class UserActivities:
       # X-RAY ------
       # Start a segment
       #segment = xray_recorder.begin_segment('user_activities')  
-      
+
+    print("UserActivities.run")  
     model = {
       'errors': None,
       'data': None
@@ -20,8 +21,10 @@ class UserActivities:
     if user_handle == None or len(user_handle) < 1:
       model['errors'] = ['blank_user_handle']
     else:
+      print("else")  
       sql = db.template('users','show')
-      results = db.query_object_json(sql, {'handle':user_handle})
+      results = db.query_object_json(sql,{'handle':user_handle})
+      print("results: ", results)
       model['data'] = results
 
       # X-RAY ------
