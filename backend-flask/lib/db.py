@@ -43,8 +43,9 @@ class Db:
 
   # when we want to commit data such as an insert
   # be sure to check for RETURNING in all uppercases
-  def query_commit(self, sql, params={}):
-    self.print_sql('commit_with_returning_id', sql, params)
+  def query_commit(self, sql, params={},verbose=True):
+    if verbose:
+      self.print_sql('commit_with_returning_id', sql, params)
     
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
@@ -63,8 +64,9 @@ class Db:
       #conn.rollback()
   
   # when we want to return a a single value
-  def query_value(self,sql,params={}):
-    self.print_sql('value',sql,params)
+  def query_value(self,sql,params={},verbose=True):
+    if verbose:
+      self.print_sql('value',sql,params)
 
     with self.pool.connection() as conn:
       with conn.cursor() as cur:
@@ -73,8 +75,9 @@ class Db:
         return json[0]
 
   # when we want to return an array of json objects
-  def query_array_json(self, sql, params={}):
-    self.print_sql('query_array_json', sql, params)
+  def query_array_json(self, sql, params={},verbose=True):
+    if verbose:
+      self.print_sql('query_array_json', sql, params)
 
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
@@ -86,9 +89,10 @@ class Db:
         return json[0]
   
   # when we want to return a json object
-  def query_object_json(self, sql, params={}):
-    self.print_sql('query_object_json', sql, params)
-    self.print_params(params)
+  def query_object_json(self, sql, params={},verbose=True):
+    if verbose:
+      self.print_sql('query_object_json', sql, params)
+      self.print_params(params)
 
     wrapped_sql = self.query_wrap_object(sql)
     with self.pool.connection() as conn:

@@ -1,48 +1,40 @@
-import './ReplyForm.css';
+import './ProfileForm.css';
 import React from "react";
 import process from 'process';
-import {ReactComponent as BombIcon} from './svg/bomb.svg';
+import {getAccessToken} from 'lib/CheckAuth';
 
-import ActivityContent  from '../components/ActivityContent';
+export default function ProfileForm(props) {
+  const [bio, setBio] = React.useState(0);
+  const [displayName, setDisplayName] = React.useState(0);
 
-export default function ReplyForm(props) {
-  const [count, setCount] = React.useState(0);
-  const [message, setMessage] = React.useState('');
-
-  const classes = []
-  classes.push('count')
-  if (240-count < 0){
-    classes.push('err')
-  }
+  React.useEffect(()=>{
+    console.log('useEffects',props)
+    setBio(props.profile.bio);
+    setDisplayName(props.profile.display_name);
+  }, [props.profile])
 
   const onsubmit = async (event) => {
     event.preventDefault();
     try {
-      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${props.activity.uuid}/reply`
+      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/profile/update`
+      await getAccessToken()
+      const access_token = localStorage.getItem("access_token")
       const res = await fetch(backend_url, {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${access_token}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          message: message
+          bio: bio,
+          display_name: displayName
         }),
       });
       let data = await res.json();
       if (res.status === 200) {
-        // add activity to the feed
-
-        let activities_deep_copy = JSON.parse(JSON.stringify(props.activities))
-        let found_activity = activities_deep_copy.find(function (element) {
-          return element.uuid ===  props.activity.uuid;
-        });
-        found_activity.replies.push(data)
-
-        props.setActivities(activities_deep_copy);
-        // reset and close the form
-        setCount(0)
-        setMessage('')
+        setBio(null)
+        setDisplayName(null)
         props.setPopped(false)
       } else {
         console.log(res)
@@ -52,49 +44,53 @@ export default function ReplyForm(props) {
     }
   }
 
-  const textarea_onchange = (event) => {
-    setCount(event.target.value.length);
-    setMessage(event.target.value);
+  const bio_onchange = (event) => {
+    setBio(event.target.value);
   }
 
-  const close = ()=> {
-    console.log('close')
-    //props.setPopped(false)
+  const display_name_onchange = (event) => {
+    setDisplayName(event.target.value);
   }
 
-  let content;
-  if (props.activity){
-    content = <ActivityContent activity={props.activity} />;
+  const close = (event)=> {
+    if (event.target.classList.contains("profile_popup")) {
+      props.setPopped(false)
+    }
   }
-
 
   if (props.popped === true) {
     return (
-      <div className="popup_form_wrap" onClick={close}>
-        <div className="popup_form">
+      <div className="popup_form_wrap profile_popup" onClick={close}>
+        <form 
+          className='profile_form popup_form'
+          onSubmit={onsubmit}
+        >
           <div className="popup_heading">
+            <div className="popup_title">Edit Profile</div>
+            <div className='submit'>
+              <button type='submit'>Save</button>
+            </div>
           </div>
           <div className="popup_content">
-            <div className="activity_wrap">
-              {content}
-            </div>
-            <form 
-              className='replies_form'
-              onSubmit={onsubmit}
-            >
-              <textarea
+            <div className="field display_name">
+              <label>Display Name</label>
+              <input
                 type="text"
-                placeholder="what is your reply?"
-                value={message}
-                onChange={textarea_onchange} 
+                placeholder="Display Name"
+                value={displayName}
+                onChange={display_name_onchange} 
               />
-              <div className='submit'>
-                <div className={classes.join(' ')}>{240-count}</div>
-                <button type='submit'>Reply</button>
-              </div>
-            </form>
+            </div>
+            <div className="field bio">
+              <label>Bio</label>
+              <textarea
+                placeholder="Bio"
+                value={bio}
+                onChange={bio_onchange} 
+              />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     );
   }
