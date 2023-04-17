@@ -2,6 +2,7 @@ import './ProfileForm.css';
 import React from "react";
 import process from 'process';
 import {getAccessToken} from 'lib/CheckAuth';
+import { S3Client } from '@aws-sdk/client-s3';
 
 export default function ProfileForm(props) {
   const [bio, setBio] = React.useState(0);
@@ -12,6 +13,10 @@ export default function ProfileForm(props) {
     setBio(props.profile.bio);
     setDisplayName(props.profile.display_name);
   }, [props.profile])
+
+  const s3upload = async (event) => {
+
+  }
 
   const onsubmit = async (event) => {
     event.preventDefault();
@@ -72,6 +77,9 @@ export default function ProfileForm(props) {
             </div>
           </div>
           <div className="popup_content">
+            <div className="upload" onClick={s3upload}>
+              Upload Avatar
+            </div>
             <div className="field display_name">
               <label>Display Name</label>
               <input
