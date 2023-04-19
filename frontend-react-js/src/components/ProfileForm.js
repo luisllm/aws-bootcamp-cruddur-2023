@@ -14,8 +14,58 @@ export default function ProfileForm(props) {
     setDisplayName(props.profile.display_name);
   }, [props.profile])
 
-  const s3upload = async (event) => {
+  const s3uploadkey = async (event) => {
+    try {
+      console.log('s3uploadkey')
+      const backend_url = "https://aojrekswc6.execute-api.eu-west-1.amazonaws.com/avatars/key_upload"
+      await getAccessToken()
+      const access_token = localStorage.getItem("access_token")
+      const res = await fetch(backend_url, {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${access_token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+      let data = await res.json();
+      if (res.status === 200) {
+        console.log('presigned url', data)
+      } else {
+        console.log(res)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+  const s3upload = async (event)=> {
+    console.log('event',event)
+    const file = event.target.files[0]
+    const filename = file.name
+    const size = file.size
+    const type = file.type
+    const preview_image_url = URL.createObjectURL(file)
+    console.log(filename,size,type)
+    const fileparts = filename.split('.')
+    const extension = fileparts[fileparts.length-1]
+    const presignedurl = await s3uploadkey(extension)
+    try {
+      console.log('s3upload')
+      const res = await fetch(presignedurl, {
+        method: "PUT",
+        body: file,
+        headers: {
+          'Content-Type': type
+      }})
+      if (res.status === 200) {
+        
+      } else {
+        console.log(res)
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const onsubmit = async (event) => {
@@ -77,9 +127,16 @@ export default function ProfileForm(props) {
             </div>
           </div>
           <div className="popup_content">
-            <div className="upload" onClick={s3upload}>
+
+            <div className="upload" onClick={s3uploadkey}>
               Upload Avatar
             </div>
+            
+          <input type="file" name="avatarupload" onChange={s3upload} />
+            <div className="upload" onClick={s3upload}>
+              Upload Avatar For Real
+            </div>
+            
             <div className="field display_name">
               <label>Display Name</label>
               <input
