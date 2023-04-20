@@ -5,24 +5,29 @@ import {getAccessToken} from 'lib/CheckAuth';
 import { S3Client } from '@aws-sdk/client-s3';
 
 export default function ProfileForm(props) {
-  const [bio, setBio] = React.useState(0);
-  const [displayName, setDisplayName] = React.useState(0);
+  const [bio, setBio] = React.useState('');
+  const [displayName, setDisplayName] = React.useState('');
 
   React.useEffect(()=>{
-    console.log('useEffects',props)
-    setBio(props.profile.bio);
+    setBio(props.profile.bio || '');
     setDisplayName(props.profile.display_name);
   }, [props.profile])
 
-  const s3uploadkey = async (event) => {
+  const s3uploadkey = async (extension) => {
     try {
       console.log('s3uploadkey')
-      const backend_url = "https://aojrekswc6.execute-api.eu-west-1.amazonaws.com/avatars/key_upload"
+      console.log('ext', extension)
+      const backend_url = `${process.env.REACT_APP_API_GATEWAY_ENDPOINT_URL}/avatars/key_upload`
       await getAccessToken()
       const access_token = localStorage.getItem("access_token")
+      const json = {
+        extension: extension
+      }
       const res = await fetch(backend_url, {
         method: "POST",
+        body: JSON.stringify(json),
         headers: {
+          //'Origin': 'https://3000-luisllm-awsbootcampcrud-9nhz4nwabpb.ws-eu94.gitpod.io',
           'Authorization': `Bearer ${access_token}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -31,6 +36,7 @@ export default function ProfileForm(props) {
       let data = await res.json();
       if (res.status === 200) {
         console.log('presigned url', data)
+        return data.url
       } else {
         console.log(res)
       }
