@@ -133,16 +133,7 @@ export default function ProfileForm(props) {
             </div>
           </div>
           <div className="popup_content">
-
-            <div className="upload" onClick={s3uploadkey}>
-              Upload Avatar
-            </div>
-            
           <input type="file" name="avatarupload" onChange={s3upload} />
-            <div className="upload" onClick={s3upload}>
-              Upload Avatar For Real
-            </div>
-            
             <div className="field display_name">
               <label>Display Name</label>
               <input
