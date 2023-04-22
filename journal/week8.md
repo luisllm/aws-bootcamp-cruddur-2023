@@ -18,6 +18,7 @@
 
 -  **Implemented Users Profile Form**
 ![image week8-users-profile-form](./images/week8-users-profile-form.png)
+![image week8-users-profile-form2](./images/week8-users-profile-form2.png)
 
 -  **Implemented Backend Migrations**
 ![image week8-backend-migrations](./images/week8-backend-migrations.png)
