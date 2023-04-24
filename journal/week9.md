@@ -7,7 +7,6 @@
 
 -  **Configured CodeBuild**
 ![image week9-codebuild1](./images/week9-codebuild1.png)
-![image week9-codebuild2](./images/week9-codebuild2.png)
 
 -  **Configured CodePipeline**
 ![image week9-codepipeline1](./images/week9-codepipeline1.png)
