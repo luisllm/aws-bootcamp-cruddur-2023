@@ -21,6 +21,8 @@ Parameters:
     Default: CrdNet
   CertificateArn:
     Type: String
+  MyIP:
+    Type: String
   #Frontend ------
   FrontendPort:
     Type: Number
@@ -103,7 +105,7 @@ Resources:
         Fn::Split:
           - ","
           - Fn::ImportValue:
-              !Sub "${NetworkingStack}SubnetIds"
+              !Sub "${NetworkingStack}PublicSubnetIds"
       LoadBalancerAttributes:
         - Key: routing.http2.enabled
           Value: true
@@ -172,12 +174,14 @@ Resources:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-          CidrIp: '0.0.0.0/0'
+          #CidrIp: '0.0.0.0/0'
+          CidrIp: !Ref MyIP
           Description: INTERNET HTTPS
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
-          CidrIp: '0.0.0.0/0'
+          #CidrIp: '0.0.0.0/0'
+          CidrIp: !Ref MyIP
           Description: INTERNET HTTP
   BackendTG:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
