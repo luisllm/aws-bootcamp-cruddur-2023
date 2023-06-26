@@ -1,0 +1,9 @@
+[deploy]
+bucket = 'llm-cfn-artifacts'
+region = 'eu-west-1'
+stack_name = 'CrdSyncRole'
+
+[parameters]
+GitHubOrg = 'luisllm'
+RepositoryName = 'aws-bootcamp-cruddur-2023'
+OIDCProviderArn = ''
