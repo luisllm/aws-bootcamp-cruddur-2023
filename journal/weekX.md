@@ -56,10 +56,13 @@ Invalidation IE5GZKNXZGDG3NKJYF71KOKR7G has been created. Please wait about 60 s
 ![image weekx-codepipeline-fixed](./images/weekx-codepipeline-fixed.png)
 ![image weekx-activities-fixed](./images/weekx-activities-fixed.png)
 
+- **Refactored to use JWT Decorator in Flask App**
+![image weekx-refactor-jwt-decorator](./images/weekx-refactor-jwt-decorator.png)
 
-Refactor to use JWT Decorator in Flask App	
-Refactor App.py	
-Refactor Flask Routes	
+- **Refactor App.py and Flask Routes**
+![image weekx-refactor-app-py](./images/weekx-refactor-app-py.png)
+
+
 Implement Replies for Posts	
 Improved Error Handling for the app	
 Activities Show Page	

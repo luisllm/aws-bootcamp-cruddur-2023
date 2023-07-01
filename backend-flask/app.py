@@ -1,8 +1,18 @@
-from flask import Flask
-from flask import request, g
-from flask_cors import CORS, cross_origin
 import os
 import sys
+
+from flask import Flask
+from flask import request, g
+from flask_cors import cross_origin
+
+from aws_xray_sdk.core import xray_recorder
+
+from lib.rollbar import init_rollbar
+from lib.xray import init_xray
+from lib.honeycomb import init_honeycomb
+from lib.cors import init_cors
+from lib.cognito_jwt_token import jwt_required
+from lib.cloudwatch import init_cloudwatch
 
 from services.users_short import *
 from services.home_activities import *
@@ -18,118 +28,37 @@ from services.show_activity import *
 from services.update_profile import *
 
 
-# Honeycomb ------
-from opentelemetry import trace
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
-from opentelemetry.instrumentation.requests import RequestsInstrumentor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
 
-# Cloudwatch logs ------
-import watchtower
-import logging
 from time import strftime
-
-# X-RAY ------
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
-
-# Rollbar ------
-import rollbar
-import rollbar.contrib.flask
-from flask import got_request_exception
-
-# Cognito ----
-from lib.cognito_jwt_token import jwt_required
-
-# Configuring Logger to Use CloudWatch
-LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
-console_handler = logging.StreamHandler()
-cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
-LOGGER.addHandler(console_handler)
-LOGGER.addHandler(cw_handler)
-LOGGER.info("test log")
-
-# Honeycomb ------
-# Initialize tracing and an exporter that can send data to Honeycomb
-provider = TracerProvider()
-processor = BatchSpanProcessor(OTLPSpanExporter())
-provider.add_span_processor(processor)
-# Show this in the logs within the backend-flask app (STDOUT)
-simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
-provider.add_span_processor(simple_processor)
-trace.set_tracer_provider(provider)
-tracer = trace.get_tracer(__name__)
-
-
-# X-RAY ------
-xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
-
-
 
 
 
 app = Flask(__name__)
 
-
-# Honeycomb ------
-# Initialize automatic instrumentation with Flask
-FlaskInstrumentor().instrument_app(app)
-RequestsInstrumentor().instrument()
-
-# X-RAY ------
-XRayMiddleware(app, xray_recorder)
-
-frontend = os.getenv('FRONTEND_URL')
-backend = os.getenv('BACKEND_URL')
-origins = [frontend, backend]
-#cors = CORS(
-#  app, 
-#  resources={r"/api/*": {"origins": origins}},
-#  expose_headers="location,link",
-#  allow_headers="content-type,if-modified-since",
-#  methods="OPTIONS,GET,HEAD,POST"
-#)
-cors = CORS(
-  app, 
-  resources={r"/api/*": {"origins": origins}},
-  headers=['Content-Type', 'Authorization'], 
-  expose_headers='Authorization',
-  methods="OPTIONS,GET,HEAD,POST"
-)
-
-@app.after_request
-def after_request(response):
-    timestamp = strftime('[%Y-%b-%d %H:%M]')
-    LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
-    return response
-
-# Rollbar ------
-rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+# Initialization ---------
+init_xray(app)
 with app.app_context():
-  def init_rollbar():
-      """init rollbar module"""
-      rollbar.init(
-          # access token
-          rollbar_access_token,
-          # environment name
-          'production',
-          # server root directory, makes tracebacks prettier
-          root=os.path.dirname(os.path.realpath(__file__)),
-          # flask already sets up logging
-          allow_logging_basic_config=False)
+  rollbar = init_rollbar(app)
+init_honeycomb(app)
+init_cors(app)
 
-      # send exceptions from `app` to rollbar, using flask's signal system.
-      got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+
+#@app.after_request
+#def after_request(response):
+#  init_cloudwatch(response)
+
+
     
 #@app.route('/rollbar/test')
 #def rollbar_test():
 #    rollbar.report_message('Hello World!', 'warning')
 #    return "Hello World!"
+
+def model_json(model):
+  if model['errors'] is not None:
+    return model['errors'], 422
+  else:
+    return model['data'], 200
 
 @app.route('/api/health-check')
 def health_check():
@@ -139,10 +68,7 @@ def health_check():
 @jwt_required()
 def data_message_groups():
   model = MessageGroups.run(cognito_user_id=g.cognito_user_id)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+  return model_json(model)
 
 
 @app.route("/api/messages/<string:message_group_uuid>", methods=['GET'])
@@ -152,10 +78,7 @@ def data_messages(message_group_uuid):
     cognito_user_id=g.cognito_user_id,
     message_group_uuid=message_group_uuid
   )
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+  return model_json(model)
 
 
 
@@ -184,10 +107,8 @@ def data_create_message():
       cognito_user_id=g.cognito_user_id
     )
 
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+  return model_json(model)
+
 
 
 def default_home_feed(e):
@@ -211,20 +132,15 @@ def data_notifications():
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
 def data_handle(handle):
   model = UserActivities.run(handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+  return return_model(model)
+
 
 @app.route("/api/activities/search", methods=['GET'])
 def data_search():
   term = request.args.get('term')
   model = SearchActivities.run(term)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+  return model_json(model)
+
 
 @app.route("/api/activities", methods=['POST','OPTIONS'])
 @cross_origin()
@@ -233,10 +149,8 @@ def data_activities():
   message = request.json['message']
   ttl = request.json['ttl']
   model = CreateActivity.run(message, g.cognito_user_id, ttl)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+  return model_json(model)
+
 
 @app.route("/api/activities/<string:activity_uuid>", methods=['GET'])
 def data_show_activity(activity_uuid):
@@ -249,11 +163,8 @@ def data_activities_reply(activity_uuid):
   user_handle  = 'andrewbrown'
   message = request.json['message']
   model = CreateReply.run(message, user_handle, activity_uuid)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+  return model_json(model)
+
 
 if __name__ == "__main__":
   app.run(debug=True)
@@ -275,10 +186,8 @@ def data_update_profile():
     bio=bio,
     display_name=display_name
   )
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+  return model_json(model)
+
 
 if __name__ == "__main__":
   app.run(debug=True)
