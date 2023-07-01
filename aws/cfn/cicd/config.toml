@@ -1,0 +1,12 @@
+[deploy]
+bucket = 'llm-cfn-artifacts'
+region = 'eu-west-1'
+stack_name = 'CrdCicd'
+
+[parameters]
+ServiceStack = 'CrdSrvBackendFlask'
+ClusterStack = 'CrdCluster'
+GitHubBranch = 'prod'
+GithubRepo = 'luisllm/aws-bootcamp-cruddur-2023'
+ArtifactBucketName = "llm-codepipeline-cruddur-artifacts"
+BuildSpec = 'backend-flask/buildspec.yml'

@@ -1,0 +1,9 @@
+[deploy]
+bucket = 'llm-cfn-artifacts'
+region = 'eu-west-1'
+stack_name = 'CrdFrontend'
+
+[parameters]
+CertificateArn = 'arn:aws:acm:us-east-1:632758144135:certificate/c0c5da50-e189-4fd0-9946-79c9a5094e64'
+WwwBucketName = 'www.cruddur.es'
+RootBucketName = 'cruddur.es'

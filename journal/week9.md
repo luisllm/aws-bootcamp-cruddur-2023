@@ -11,3 +11,4 @@
 -  **Configured CodePipeline**
 ![image week9-codepipeline1](./images/week9-codepipeline1.png)
 ![image week9-codepipeline2](./images/week9-codepipeline2.png)
+![image week9-codepipeline2](./images/week9-codepipeline3.png)
