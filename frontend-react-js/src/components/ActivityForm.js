@@ -68,7 +68,7 @@ export default function ActivityForm(props) {
       >
         <textarea
           type="text"
-          placeholder="what would you like to say?"
+          placeholder="what would you like to say?!!"
           value={message}
           onChange={textarea_onchange} 
         />
