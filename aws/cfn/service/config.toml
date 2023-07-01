@@ -2,3 +2,7 @@
 bucket = 'llm-cfn-artifacts'
 region = 'eu-west-1'
 stack_name = 'CrdSrvBackendFlask'
+
+[parameters]
+EnvFrontendUrl = 'https://cruddur.es'
+EnvBackendUrl = 'https://api.cruddur.es'

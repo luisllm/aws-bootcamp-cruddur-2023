@@ -6,14 +6,14 @@
 ![image weekx-architecture](./images/weekx-architecture.png)
 
 -  **Sync tool for static website hosting**
-![image weekx-cloudfront](./images/weekx-cloudfront-invalidations.png)
+![image weekx-cloudfront](./images/weekx-cloudfront-invalidations.jpg)
 
 - **Reconnected DB and PostgreSQL Confirmation Lamba**
-![image weekx-confirmation-lambda1](./images/weekx-confirmation-lambda1.png)
+![image weekx-confirmation-lambda1](./images/weekx-confirmation-lambda1.jpg)
 
+- **Fixed CORS to use domain name for web-app**
+![image weekx-fix-cors-issue](./images/weekx-fix-cors-issue.png)
 
-
-Fix CORS to use domain name for web-app	
 Ensure CI/CD pipeline works and create activity works	
 Refactor to use JWT Decorator in Flask App	
 Refactor App.py	
