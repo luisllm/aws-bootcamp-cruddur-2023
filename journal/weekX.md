@@ -2,9 +2,6 @@
 ## My journal - week X
 
 **Did all the tasks in the weekX to-do list**
--  **WeekX architecture diagram**	
-![image weekx-architecture](./images/weekx-architecture.png)
-
 -  **Sync tool for static website hosting**
 ```
 gitpod /workspace/aws-bootcamp-cruddur-2023 (main) $ ./bin/frontend/sync 
