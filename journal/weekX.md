@@ -62,8 +62,15 @@ Invalidation IE5GZKNXZGDG3NKJYF71KOKR7G has been created. Please wait about 60 s
 - **Refactor App.py and Flask Routes**
 ![image weekx-refactor-app-py](./images/weekx-refactor-app-py.png)
 
+- **Implemented Replies for Posts**
+![image weekx-reply](./images/weekx-reply.png)
 
-Implement Replies for Posts	
-Improved Error Handling for the app	
-Activities Show Page	
-More General Cleanup Part 1 and Part 2	
+- **Improved Error Handling for the app**
+![image weekx-error-handling](./images/weekx-error-handling.png)
+![image weekx-error-handling2](./images/weekx-error-handling2.png)
+
+- **Activities Show Page**
+![image weekx-refactor-app-py](./images/weekx-refactor-app-py.png)
+
+- **More General Cleanup Part 1 and Part 2**
+![image weekx-refactor-app-py](./images/weekx-refactor-app-py.png)
