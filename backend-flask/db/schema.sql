@@ -16,7 +16,8 @@ CREATE TABLE public.users (
   handle text NOT NULL,
   email text NOT NULL,
   cognito_user_id text NOT NULL,
-  created_at TIMESTAMP default current_timestamp NOT NULL
+  created_at TIMESTAMP default current_timestamp NOT NULL,
+  bio text
 );
 CREATE TABLE public.activities (
   uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -25,7 +26,7 @@ CREATE TABLE public.activities (
   replies_count integer DEFAULT 0,
   reposts_count integer DEFAULT 0,
   likes_count integer DEFAULT 0,
-  reply_to_activity_uuid integer,
+  reply_to_activity_uuid uuid,
   expires_at TIMESTAMP,
   created_at TIMESTAMP default current_timestamp NOT NULL
 );
