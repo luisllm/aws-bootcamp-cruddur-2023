@@ -1,0 +1,4 @@
+[deploy]
+bucket = 'llm-cfn-artifacts'
+region = 'eu-west-1'
+stack_name = 'CrdMachineUser'

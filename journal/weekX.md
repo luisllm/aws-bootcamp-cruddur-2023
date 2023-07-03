@@ -69,5 +69,5 @@ Invalidation IE5GZKNXZGDG3NKJYF71KOKR7G has been created. Please wait about 60 s
 - **Created Activities Show Page**
 ![image weekx-activity-show-page](./images/weekx-activity-show-page.png)
 
-- **More General Cleanup Part 1 and Part 2**
-![image weekx-refactor-app-py](./images/weekx-refactor-app-py.png)
+- **More General Cleanup Part 1 and Part 2 - messages working**
+![image weekx-messages-working](./images/weekx-messages-working.png)
